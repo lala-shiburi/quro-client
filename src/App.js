@@ -28,9 +28,9 @@ class App extends Component {
 
      socket.on('ecgData', data => {
         
-        response.push(data);
-
-        // setting state after 1500 ms makes the animation a bit smoother 
+        
+       response.push(data);
+        // setting state after 1000 ms makes the animation a bit smoother 
 
         this.inter =setInterval(()=>{
 
@@ -40,10 +40,10 @@ class App extends Component {
             response = response.slice(response.length-150,response.length)
             this.setState({response})
           }else{
-             this.setState({response})
+            this.setState({response})
           }
          
-        }, 1500);
+        }, 1000);
 
 
 
