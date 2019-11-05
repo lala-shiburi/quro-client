@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import socketIOClient from 'socket.io-client';
 import LineChart from './components/LineChart';
+import Logo from './components/Logo';
+import Loading from './components/Loading';
+
 
 class App extends Component {
   constructor() {
@@ -44,8 +47,11 @@ class App extends Component {
   render() {
     const { response } = this.state;
     return (
-      <div>
-        <LineChart data={response} />
+      <div className="App">
+        <Logo/>
+        <h1 style={{color:'#3B58B8'}}>Time-series ECG graph</h1>
+        {response.length ? <LineChart data={response} /> : <Loading type={'bars'} color={'#3B58B8'} />}
+
       </div>
     );
   }
