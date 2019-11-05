@@ -7,13 +7,18 @@ import Loading from './components/Loading';
 
 
 class App extends Component {
+
+  inter; 
+
   constructor() {
     super();
     this.state = {
       response: [],
       endpoint: 'http://127.0.0.1:3000',
+      intervalId:[]
     };
-  }y
+  }
+  
 
    componentDidMount() {
 
@@ -22,26 +27,33 @@ class App extends Component {
      const socket = socketIOClient(endpoint);
 
      socket.on('ecgData', data => {
+        
         response.push(data);
 
-        setInterval(()=>{
-          this.setState({response})
-        }, 1500);
-      
+        // setting state after 1500 ms makes the animation a bit smoother 
+
+        this.inter =setInterval(()=>{
+
         //removes 50 data point when they reach above 200
         //This help clear the data from state and also help with displaying the data on the graph 
-        setInterval(()=>{
-
           if(response.length>200){
             response = response.slice(response.length-150,response.length)
             this.setState({response})
+          }else{
+             this.setState({response})
           }
-          
-         },10000)
+         
+        }, 1500);
+
+
+
      
         });
    }
 
+   componentWillUnmount(){
+     clearInterval(this.inter)
+   }
  
 
   render() {
